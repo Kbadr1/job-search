@@ -1,5 +1,12 @@
+import SearchBox from "../components/SearchBox";
+
 const Jobs = () => {
-  return <div>Jobs</div>;
+  return (
+    <>
+      <SearchBox />
+      Jobs
+    </>
+  );
 };
 
 export default Jobs;
