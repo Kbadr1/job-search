@@ -1,5 +1,12 @@
+import SearchBox from "../components/SearchBox";
+
 const Landing = () => {
-  return <div>Landing</div>;
+  return (
+    <>
+      <SearchBox />
+      landing
+    </>
+  );
 };
 
 export default Landing;
