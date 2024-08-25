@@ -11,20 +11,20 @@ import { useClickOutside } from "../../hooks/useClickOutside";
 
 const SearchBox = () => {
   const [isSuggestions, setIsSuggestions] = useState(false);
-
   const dropdownRef = useRef<HTMLDivElement>(null);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { searchQuery, jobs: jobsById } = useSelector(
-    (state: RootState) => state.jobs
-  );
+  const {
+    searchQuery,
+    entities: { jobs: jobsById },
+  } = useSelector((state: RootState) => state.jobs);
 
   const handleSuggestionClick = (query: string) => {
     dispatch(setSearchQuery(query));
     setIsSuggestions(false);
   };
+
   const jobs = Object.values(jobsById);
 
   const debounce = _debounce((e) => {
@@ -39,7 +39,7 @@ const SearchBox = () => {
       dispatch(setSearchQuery(""));
       navigate("/jobs");
     }
-  }, [searchQuery, navigate]);
+  }, [searchQuery, navigate, dispatch]);
 
   useClickOutside(dropdownRef, () => setIsSuggestions(false));
 

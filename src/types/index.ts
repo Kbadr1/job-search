@@ -10,13 +10,13 @@ export interface TSkill {
   id: string;
   name: string;
   jobs: string[];
-  skills: string[]
 }
 
 export interface TJobsState {
-  jobs: Record<string, TJob>;
-  skills: Record<string, TSkill>;
-  skillsIds: string[];
+  entities: {
+    jobs: Record<string, TJob>;
+    skills: Record<string, TSkill>;
+  };
   loading: boolean;
   error: string | null;
   count: number;
@@ -31,7 +31,7 @@ export interface TError {
 }
 
 export interface THydrate {
-  jobs: TJobsState
+  jobs: TJobsState;
 }
  
 export interface RehydrateAction extends Action<"persist/REHYDRATE"> {
@@ -44,8 +44,8 @@ export interface TJobResponseData {
     title: string; 
   }
   relationships: {
-    skills: {id: string}[]
-  }
+    skills: { id: string }[];
+  };
 }
 
 export interface RelationShipIds {
