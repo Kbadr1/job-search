@@ -1,0 +1,28 @@
+.job-card {
+  background-color: white;
+  padding: 40px 20px;
+}
+
+.job-card h3 {
+  margin: 0 0 20px 0;
+}
+
+.job-card .tags {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.job-card .tags a {
+  background-color: #C4C4C4;
+  border-radius: 5px;
+  padding: 8px 16px;
+  text-decoration: none;
+  color: inherit;
+  text-align: center;
+}
+
+.job-card .view-details {
+  color: inherit;
+}
