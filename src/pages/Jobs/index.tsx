@@ -8,10 +8,9 @@ import { TJob } from "../../types";
 
 const Jobs = () => {
   const {
-    jobs: jobsById = {},
+    entities: { jobs: jobsById, skills },
     loading,
     error,
-    skills = {},
     next,
     cursor,
     count,
@@ -24,7 +23,7 @@ const Jobs = () => {
   useEffect(() => {
     dispatch(setSearchQuery(""));
     dispatch(fetchJobs());
-  }, []);
+  }, [dispatch]);
 
   useInfiniteScroll({
     cursor,
@@ -43,15 +42,13 @@ const Jobs = () => {
         ) : error ? (
           <h4>Something Went Wrong</h4>
         ) : (
-          jobs.map((job: TJob) => (
-            <JobCard
-              job={job}
-              key={job.id}
-              skills={job.skills.map((skillId) => skills[skillId])}
-            />
-          ))
+          jobs.map((job: TJob) => {
+            const jobSkills = job.skills.map((skillId) => skills[skillId]);
+
+            return <JobCard job={job} key={job.id} skills={jobSkills} />;
+          })
         )}
-        <div ref={loaderRef} />{" "}
+        <div ref={loaderRef} />
       </div>
     </section>
   );

@@ -3,19 +3,19 @@ import axios from "axios";
 import { normalize, schema } from "normalizr"; 
 import { CORE_API_URL } from "../constants";
 import { REHYDRATE } from 'redux-persist'; 
-import { RehydrateAction, RelationShipIds, TError, TJob,  TJobResponseData,TJobsState } from "../types"; 
-
+import { RehydrateAction, RelationShipIds, TError, TJob, TJobResponseData, TJobsState } from "../types"; 
 
 const skillSchema = new schema.Entity("skills");
 const jobSchema = new schema.Entity("jobs", {
   skills: [skillSchema],
 });
 const jobListSchema = [jobSchema];
-
+ 
 const initialState: TJobsState = {
-  jobs: {},
-  skillsIds: [],
-  skills: {},
+  entities: {
+    jobs: {},
+    skills: {},
+  },
   loading: false,
   error: null,
   count: 0,
@@ -34,7 +34,6 @@ export const fetchJobs = createAsyncThunk(
     const isNewSearch = cursor === 0;
     console.log(getState());
     
-    
     try {
       const endpoint = searchQuery.trim().length >= 3
         ? `${CORE_API_URL}/jobs/search?query=${searchQuery.toLowerCase()}`
@@ -52,35 +51,40 @@ export const fetchJobs = createAsyncThunk(
         throw new Error('Jobs data is missing or undefined');
       }
 
+      // Normalize the jobs data
       const normalizedData = normalize(jobs, jobListSchema);
 
+      // Fetch skill data for all skills referenced in jobs
       const allSkills = [...new Set(jobs.flatMap((job: TJob) => job.skills))]; 
-      
       const skillsDataResponses = await Promise.all(allSkills.map(skillId =>
         axios.get(`${CORE_API_URL}/skill/${skillId}`)
       ));
-      
+
+      // Normalize the skills data
       const skills = skillsDataResponses.reduce((acc: Record<string, any>, response) => {
         const skill = response.data.data.skill;
-        
         const id = skill.id;
         acc[id] = {
           id,
           name: skill.attributes.name,
           jobs: skill.relationships.jobs.map((job: RelationShipIds) => job.id),
-          skillsIds: skill.relationships.skills.map((skill: RelationShipIds) => skill.id),
         };
         return acc;
       }, {});
 
       return {
-        jobs: normalizedData.entities.jobs,
-        skillsIds: allSkills,
-        skills,
+        entities: {
+          jobs: normalizedData.entities.jobs,
+          skills: {
+            ...normalizedData.entities.skills,
+            ...skills,
+          },
+        },
+        result: normalizedData.result,
         count: response.data.data.meta.count,
         next: response.data.data.meta.next || null,
         searchQuery,
-        isNewSearch
+        isNewSearch,
       };
     } catch (error: TError | any) {
       return rejectWithValue(error?.message || 'Failed to fetch jobs');
@@ -115,26 +119,31 @@ const jobsSlice = createSlice({
       }
     });
     builder.addCase(fetchJobs.fulfilled, (state: TJobsState, action) => {
-      state.loading = false;  
+      state.loading = false;
+    
+      const newJobs = action.payload?.entities?.jobs || {};
+      const newSkills = action.payload?.entities?.skills || {};
+    
       if (action.payload.isNewSearch) {
-        // If it's a new search, override the existing jobs
-        state.jobs = {...action.payload.jobs};
+        state.entities.jobs = newJobs;
+        state.entities.skills = newSkills;
       } else {
-        // Otherwise, merge the new jobs with the existing ones
-        state.jobs = {
-          ...state.jobs,
-          ...action.payload.jobs,
+        state.entities.jobs = {
+          ...state.entities.jobs,
+          ...newJobs,
+        };
+        state.entities.skills = {
+          ...state.entities.skills,
+          ...newSkills,
         };
       }
-      state.skillsIds = Array.from(new Set([...state.skillsIds, ...action.payload.skillsIds as string[]]));
-      state.skills = {
-        ...state.skills,
-        ...action.payload.skills,
-      };
+    
       state.error = null;
       state.count = action.payload.count;
       state.next = action.payload.next;
       state.searchQuery = action.payload.searchQuery;
+    
+      // Update search history
       const query = action.payload.searchQuery;
       if (query && !state.searchHistory.includes(query)) {
         state.searchHistory.push(query);
@@ -142,15 +151,13 @@ const jobsSlice = createSlice({
     });
     builder.addCase(fetchJobs.rejected, (state, action) => {
       state.loading = false;
-      state.jobs = {};
-      state.skillsIds = [];
-      state.skills = {};
+      state.entities.jobs = {};
+      state.entities.skills = {};
       state.error = action.payload as string;
     });
   },
 });
 
 export const { setSearchQuery, clearHistory, setCursor } = jobsSlice.actions;
- 
 
 export default jobsSlice.reducer;
