@@ -1,0 +1,11 @@
+.landing {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+  padding: 100px 0;
+}
+.landing a {
+  color: inherit;
+}

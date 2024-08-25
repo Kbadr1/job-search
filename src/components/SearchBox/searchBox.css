@@ -1,0 +1,96 @@
+.search-box {
+  margin: 5px 0;
+  height: 144px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.search-box .input-container {
+  position: relative;
+  width: 80%;
+  max-width: 800px;
+  box-sizing: border-box;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 20px 58px 20px 20px;
+  border-radius: 5px;
+  border: 1px solid black;
+  outline: none;
+  font-size: 26px;
+  box-sizing: border-box;
+}
+
+.search-box input::placeholder {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.search-box .search-icon {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.search-box .suggestions-list {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  top: 70px;
+  background-color: white;
+  border: 1px solid gray;
+  border-radius: 5px;
+  padding: 10px;
+  list-style: none; 
+}
+
+.search-box .suggestions-list li {
+  cursor: pointer;
+}
+
+.search-box .autoComplete-list {
+  position: absolute;
+  top: 80px;
+  background-color: white;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  z-index: 50;
+  width: 100%; 
+  display: block;
+}
+.search-box .autoComplete-list ul {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; 
+}
+.search-box .autoComplete-list ul li {
+  cursor: pointer;
+}
+.search-box .hide-list {
+  display: none;
+}
+
+@media (max-width: 499px) { 
+  .search-box .input-container {
+    width: 100%;
+    padding: 0 10px;
+  }
+
+  .search-box input {
+    font-size: 16px;
+    padding: 10px 32px 10px 10px;
+  }
+
+  .search-box .search-icon {
+    top: 12px;
+    right: 20px;
+    width: 18px;
+  } 
+  .search-box .autoComplete-list {
+    width: calc(100vw - 20px);
+  }
+}
