@@ -31,8 +31,8 @@ const Search = () => {
           ? `"${searchQuery}" jobs  (${count})`
           : `${count} Available jobs`}
       </h2>
-      <div className="layout-three-columns">
-        <div className="layout-two-columns col-span-2">
+      <div className="grid-three-columns">
+        <div className="grid-two-columns grid-column-span-2">
           {loading ? (
             <h4>Loading ...</h4>
           ) : error ? (

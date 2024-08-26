@@ -5,51 +5,44 @@ import { normalize, schema } from "normalizr";
 import axios from "axios";
 
 const skillSchema = new schema.Entity("skills");
-const jobSchema = new schema.Entity("jobs", {
-  skills: [skillSchema],
-});
+const jobSchema = new schema.Entity("jobs", { skills: [skillSchema] });
 const jobListSchema = [jobSchema];
 
 export const fetchJobs = createAsyncThunk(
   "jobs/fetchJobs",
-  async (_, thunkAPI) => {
-    const { rejectWithValue, getState } = thunkAPI;
-    const state = getState() as { jobs: TJobsState }; 
-    const { cursor, searchQuery } = state.jobs;   
+  async (_, { rejectWithValue, getState }) => {
+    const state = getState() as { jobs: TJobsState };
+    const { cursor, searchQuery } = state.jobs;
     const isNewSearch = cursor === 0;
-    
+
     try {
       const endpoint = searchQuery.trim().length >= 3
         ? `${CORE_API_URL}/jobs/search?query=${searchQuery.toLowerCase()}`
         : `${CORE_API_URL}/jobs?cursor=${cursor}&limit=12`;
 
-      const response = await axios.get(endpoint);
+      const { data } = await axios.get(endpoint);
 
-      const jobs = response.data?.data?.jobs.map((job: TJobResponseData) => ({
+      const jobs = data?.data?.jobs.map((job: TJobResponseData) => ({
         id: job.id,
         title: job.attributes.title,
         skills: job.relationships.skills.map(skill => skill.id),
       }));
 
       if (!jobs) {
-        throw new Error('Jobs data is missing or undefined');
+        throw new Error("Jobs data is missing or undefined");
       }
 
-      // Normalize the jobs data
       const normalizedData = normalize(jobs, jobListSchema);
 
-      // Fetch skill data for all skills referenced in jobs
-      const allSkills = [...new Set(jobs.flatMap((job: TJob) => job.skills))]; 
-      const skillsDataResponses = await Promise.all(allSkills.map(skillId =>
-        axios.get(`${CORE_API_URL}/skill/${skillId}`)
-      ));
+      const allSkills = [...new Set(jobs.flatMap((job: TJob) => job.skills))];
+      const skillsDataResponses = await Promise.all(
+        allSkills.map(skillId => axios.get(`${CORE_API_URL}/skill/${skillId}`))
+      );
 
-      // Normalize the skills data
-      const skills = skillsDataResponses.reduce((acc: Record<string, TSkill>, response) => {
-        const skill = response.data.data.skill;
-        const id = skill.id;
-        acc[id] = {
-          id,
+      const skills = skillsDataResponses.reduce((acc: Record<string, TSkill>, { data }) => {
+        const skill = data.data.skill;
+        acc[skill.id] = {
+          id: skill.id,
           name: skill.attributes.name,
           type: skill.attributes.type,
           importance: skill.attributes.importance,
@@ -62,19 +55,16 @@ export const fetchJobs = createAsyncThunk(
       return {
         entities: {
           jobs: normalizedData.entities.jobs,
-          skills: {
-            ...normalizedData.entities.skills,
-            ...skills,
-          },
+          skills: { ...normalizedData.entities.skills, ...skills },
         },
         result: normalizedData.result,
-        count: response.data.data.meta.count,
-        next: response.data.data.meta.next || null,
+        count: data.data.meta.count,
+        next: data.data.meta.next || null,
         searchQuery,
         isNewSearch,
       };
     } catch (error: TError | any) {
-      return rejectWithValue(error?.message || 'Failed to fetch jobs');
+      return rejectWithValue(error?.message || "Failed to fetch jobs");
     }
   }
 );

@@ -9,53 +9,41 @@ const jobSchema = new schema.Entity("jobs");
 
 export const fetchJobById = createAsyncThunk(
   "jobs/fetchJobById",
-  async (jobId: string, thunkAPI) => {
-    const { rejectWithValue, dispatch } = thunkAPI;
+  async (jobId: string, { rejectWithValue, dispatch }) => {
     try {
-      const response = await axios.get(`${CORE_API_URL}/job/${jobId}`);
+      const { data } = await axios.get(`${CORE_API_URL}/job/${jobId}`);
+      const jobData = data.data.job;
+
       const job = {
-        id: response.data.data.job.id,
-        title: response.data.data.job.attributes.title,
-        skills: response.data.data.job.relationships.skills.map(
-          (skill: RelationShipIds) => skill.id
-        ),
+        id: jobData.id,
+        title: jobData.attributes.title,
+        skills: jobData.relationships.skills.map((skill: RelationShipIds) => skill.id),
       };
 
       const normalizedJobData = normalize(job, jobSchema);
 
-      const skillIds = job.skills;
-      const skillsDataResponses = await Promise.all(skillIds.map((skillId: string) =>
-        dispatch(fetchSkillById(skillId)).unwrap()
-      ));
+      const skillsDataResponses = await Promise.all(
+        job.skills.map((skillId: string) => dispatch(fetchSkillById(skillId)).unwrap())
+      );
 
-      const relatedSkills = skillsDataResponses.reduce((acc, skillData) => {
-        return {
-          ...acc,
-          ...skillData.entities.skills,
-        };
-      }, {});
+      const relatedSkills = skillsDataResponses.reduce(
+        (acc, skillData) => ({ ...acc, ...skillData.entities.skills }),
+        {}
+      );
 
-      const relatedJobs = skillsDataResponses.reduce((acc, skillData) => {
-        return {
-          ...acc,
-          ...skillData.entities.jobs,
-        };
-      }, {});
+      const relatedJobs = skillsDataResponses.reduce(
+        (acc, skillData) => ({ ...acc, ...skillData.entities.jobs }),
+        {}
+      );
 
       return {
         entities: {
-          jobs: {
-            ...normalizedJobData.entities.jobs,
-            ...relatedJobs,
-          },
-          skills: {
-            ...normalizedJobData.entities.skills,
-            ...relatedSkills,
-          },
+          jobs: { ...normalizedJobData.entities.jobs, ...relatedJobs },
+          skills: { ...normalizedJobData.entities.skills, ...relatedSkills },
         },
       };
     } catch (error: TError | any) {
-      return rejectWithValue(error?.message || 'Failed to fetch job');
+      return rejectWithValue(error?.message || "Failed to fetch job");
     }
   }
 );

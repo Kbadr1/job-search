@@ -8,28 +8,23 @@ const skillSchema = new schema.Entity("skills");
 
 export const fetchSkillById = createAsyncThunk(
   "skills/fetchSkillById",
-  async (skillId: string, thunkAPI) => {
-    const { rejectWithValue } = thunkAPI;
+  async (skillId: string, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${CORE_API_URL}/skill/${skillId}`);
+      const { data } = await axios.get(`${CORE_API_URL}/skill/${skillId}`);
+      const skillData = data.data.skill;
+
       const skill = {
-        id: response.data.data.skill.id,
-        name: response.data.data.skill.attributes.name,
-        type: response.data.data.skill.attributes.type,
-        importance: response.data.data.skill.attributes.importance,
-        level: response.data.data.skill.attributes.level,
-        jobs: response.data.data.skill.relationships.jobs.map(
-          (job: RelationShipIds) => job.id
-        ),
-        skills: response.data.data.skill.relationships.skills.map(
-          (relatedSkill: RelationShipIds) => relatedSkill.id
-        ),
+        id: skillData.id,
+        name: skillData.attributes.name,
+        type: skillData.attributes.type,
+        importance: skillData.attributes.importance,
+        level: skillData.attributes.level,
+        jobs: skillData.relationships.jobs.map((job: RelationShipIds) => job.id),
+        skills: skillData.relationships.skills.map((relatedSkill: RelationShipIds) => relatedSkill.id),
       };
 
       const normalizedSkillData = normalize(skill, skillSchema);
-      return {
-        entities: normalizedSkillData.entities,
-      };
+      return { entities: normalizedSkillData.entities };
     } catch (error: TError | any) {
       return rejectWithValue(error?.message || 'Failed to fetch skill');
     }

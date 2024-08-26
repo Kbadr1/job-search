@@ -55,8 +55,8 @@ const JobDetails = () => {
     <section className="container job-details">
       <h1 className="page-title">{job.title}</h1>
 
-      <div className="layout-three-columns">
-        <div className="skills col-span-2">
+      <div className="grid-three-columns">
+        <div className="skills grid-column-span-2">
           <h2>Related Skills:</h2>
           {skills.length > 0 ? (
             skills.map((skill) => (
