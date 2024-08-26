@@ -20,7 +20,9 @@ const rootReducer = combineReducers({
   jobs: jobsSlice, 
 });
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+const persistedReducer = persistReducer<ReturnType<typeof rootReducer>>(persistConfig, rootReducer);
+
 
 export const store = configureStore({
   reducer: persistedReducer,
@@ -28,4 +30,5 @@ export const store = configureStore({
 
 export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = typeof store.dispatch;
+
 export const persistor = persistStore(store);
