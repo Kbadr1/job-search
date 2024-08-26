@@ -1,14 +1,13 @@
-import React from "react";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import JobCard from "./JobCard"; // Adjust the path if needed
+import JobCard from "./JobCard";
 import "@testing-library/jest-dom";
 import { TSkill } from "../../types";
 
 const mockJob = {
   id: "1",
   title: "Frontend Developer",
-  skills: [], // Include skills property as an empty array
+  skills: [],
 };
 
 const mockSkills: TSkill[] = [

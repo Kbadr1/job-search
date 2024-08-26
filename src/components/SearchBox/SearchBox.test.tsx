@@ -7,23 +7,20 @@ import "@testing-library/jest-dom";
 import { RootState } from "../../store";
 import { setSearchQuery } from "../../store/jobs/jobsSlice";
 
-// Create the type for your mock store
 type MockStore = MockStoreEnhanced<RootState, {}>;
 
-// Mock `useNavigate` globally
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
   useNavigate: jest.fn(),
 }));
 
-jest.mock("lodash/debounce", () => jest.fn((fn) => fn)); // Mock debounce
+jest.mock("lodash/debounce", () => jest.fn((fn) => fn));
 
 describe("SearchBox Component", () => {
   let store: MockStore;
-  const mockNavigate = jest.fn(); // Create a mock function
+  const mockNavigate = jest.fn();
 
   beforeEach(() => {
-    // Assign the mocked `useNavigate` function
     (useNavigate as jest.Mock).mockReturnValue(mockNavigate);
 
     store = configureStore<RootState>([])({

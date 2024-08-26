@@ -53,14 +53,11 @@ describe("Navbar Component", () => {
     const menuButton = screen.getByRole("button");
     const navList = screen.getByRole("list");
 
-    // Initially, the menu should be closed
     expect(navList).not.toHaveClass("open");
 
-    // Click to open the menu
     fireEvent.click(menuButton);
     expect(navList).toHaveClass("open");
 
-    // Click to close the menu
     fireEvent.click(menuButton);
     expect(navList).not.toHaveClass("open");
   });
@@ -76,11 +73,9 @@ describe("Navbar Component", () => {
     const navList = screen.getByRole("list");
     const firstNavLink = screen.getByText("Home");
 
-    // Open the menu
     fireEvent.click(menuButton);
     expect(navList).toHaveClass("open");
 
-    // Click the first navigation link
     fireEvent.click(firstNavLink);
     expect(navList).not.toHaveClass("open");
   });
