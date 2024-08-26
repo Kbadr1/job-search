@@ -3,7 +3,6 @@ import JobCard from "../../components/JobCard/JobCard";
 import { useEffect, useRef } from "react";
 import { fetchJobs } from "../../store/jobsSlice";
 import SearchHistory from "../../components/SearchHistory/SearchHistory";
-import { useInfiniteScroll } from "../../hooks/useInfiniteScroll";
 import { AppDispatch, RootState } from "../../store";
 
 const Search = () => {
@@ -26,14 +25,6 @@ const Search = () => {
 
   const jobs =
     jobsById && Object.keys(jobsById).length > 0 ? Object.values(jobsById) : [];
-
-  useInfiniteScroll({
-    cursor,
-    dispatch,
-    loaderRef,
-    loading,
-    next,
-  });
 
   return (
     <section className="container">

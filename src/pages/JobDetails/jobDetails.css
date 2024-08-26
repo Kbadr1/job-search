@@ -1,0 +1,63 @@
+.job-details {
+  margin-bottom: 40px;
+}
+.job-details .skills {
+  background-color: white;
+  padding: 20px;
+}
+
+.job-details .skills {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.job-details .skill-card {
+  background: #F0F0F0; 
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.job-details .skill-card a {
+  font-size: 24px;
+  font-weight: 700;
+  color: inherit;
+}
+.job-details .skill-card .attributes {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.job-details .skill-card .attributes span {
+  font-weight: 700;
+}
+
+
+.job-details .related-jobs {
+  background-color: #D9D9D9;
+  padding: 20px;
+}
+
+.job-details .related-jobs ul {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; 
+}
+.job-details .related-jobs a {
+  color: inherit;
+}
+
+.loading {
+  padding: 20px;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+
+@media (max-width: 499px) {
+  .job-details .skill-card .attributes {
+    gap: 10px;
+  } 
+}

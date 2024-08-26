@@ -1,5 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Landing, Jobs, Search, History } from "../pages";
+import {
+  Landing,
+  Jobs,
+  Search,
+  History,
+  JobDetails,
+  SkillDetails,
+} from "../pages";
 import App from "../App";
 
 export const router = createBrowserRouter([
@@ -18,6 +25,14 @@ export const router = createBrowserRouter([
       {
         path: "/jobs/search",
         element: <Search />,
+      },
+      {
+        path: "/job/:jobId",
+        element: <JobDetails />,
+      },
+      {
+        path: "/skill/:skillId",
+        element: <SkillDetails />,
       },
       {
         path: "/history",

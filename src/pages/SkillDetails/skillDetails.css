@@ -1,0 +1,37 @@
+.skill-details {
+  margin-bottom: 40px;
+}
+.skill-details .related-jobs {
+  background-color: white;
+  padding: 20px;
+}
+
+.skill-details .related-jobs ul {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+}
+.skill-details .related-jobs ul li {
+  background-color: #F0F0F0;
+  padding: 20px;
+}
+.skill-details .related-jobs a {
+  color: inherit;
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.loading {
+  padding: 20px;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+
+@media (max-width: 499px) {
+  .skill-details .skill-card .attributes {
+    gap: 10px;
+  } 
+}

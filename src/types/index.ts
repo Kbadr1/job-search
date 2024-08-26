@@ -9,7 +9,11 @@ export interface TJob {
 export interface TSkill {
   id: string;
   name: string;
+  type: string;
+  importance: string;
+  level: string;
   jobs: string[];
+  skills: string[];
 }
 
 export interface TJobsState {
