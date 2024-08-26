@@ -35,9 +35,6 @@ const SearchBox = () => {
   useEffect(() => {
     if (searchQuery.length >= 3) {
       navigate(`/jobs/search`);
-    } else if (!searchQuery.length) {
-      dispatch(setSearchQuery(""));
-      navigate("/jobs");
     }
   }, [searchQuery, navigate, dispatch]);
 

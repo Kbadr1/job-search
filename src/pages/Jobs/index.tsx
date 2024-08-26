@@ -36,8 +36,8 @@ const Jobs = () => {
 
   return (
     <section className="container">
-      <h2 className="page-title">All Jobs ({count})</h2>
-      <div className="layout-two-columns">
+      <h2 className="page-title">All Jobs {!loading && `(${count})`}</h2>
+      <div className="grid-two-columns">
         {loading && !jobs.length ? (
           <h4>Loading ...</h4>
         ) : error ? (

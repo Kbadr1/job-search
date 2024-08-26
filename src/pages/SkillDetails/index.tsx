@@ -49,8 +49,8 @@ const SkillDetails = () => {
     <section className="container skill-details">
       <h1 className="page-title">{skill.name}</h1>
 
-      <div className="layout-three-columns">
-        <div className="related-jobs col-span-2">
+      <div className="grid-three-columns">
+        <div className="related-jobs grid-column-span-2">
           <h2>Related Jobs:</h2>
           <ul className="job-card">
             {relatedJobs.length > 0 ? (

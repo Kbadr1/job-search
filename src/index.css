@@ -9,35 +9,32 @@ body {
   margin: 0;
   background-color: var(--bg-primary);
   font-size: 18px;
-}
-
+} 
 
 .container {
   padding: 0 20px;
-}
- 
- 
-
+} 
 
 .page-title {
   font-size: 48px;
   font-weight: 700;
 }
 
-.layout-two-columns{
+.grid-two-columns{
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
+  min-height: auto;
 }
 
-.layout-three-columns{
+.grid-three-columns{
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
-
+ min-height: auto;
 }
 
-.col-span-2 {
+.grid-column-span-2 {
   grid-column-start: 1;
   grid-column-end: 3;
 }
@@ -57,12 +54,12 @@ body {
     font-weight: 500;
   }
   
-  .layout-two-columns{
+  .grid-two-columns{
     display: grid;
     grid-template-columns: auto;
     gap: 20px;
   } 
-  .layout-three-columns { 
+  .grid-three-columns { 
      grid-template-columns: repeat(1, 1fr);
   }
  
