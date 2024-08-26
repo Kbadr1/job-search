@@ -16,7 +16,7 @@ const JobCard: FC<TJobCardProps> = ({ job, skills }) => {
       <div className="tags">
         {skills.length > 0 ? (
           skills.map((skill) => (
-            <Link to={``} key={skill.id}>
+            <Link to={`/skill/${skill.id}`} key={skill.id}>
               {skill.name}
             </Link>
           ))
@@ -24,7 +24,7 @@ const JobCard: FC<TJobCardProps> = ({ job, skills }) => {
           <p>No skills available</p>
         )}
       </div>
-      <Link to={``} state={job} className="view-details">
+      <Link to={`/job/${job.id}`} state={job} className="view-details">
         View Job Details
       </Link>
     </div>
