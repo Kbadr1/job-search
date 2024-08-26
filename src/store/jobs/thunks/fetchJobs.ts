@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { RelationShipIds, TError, TJob, TJobResponseData, TJobsState } from "../../../types";
+import { RelationShipIds, TError, TJob, TJobResponseData, TJobsState, TSkill } from "../../../types";
 import { CORE_API_URL } from "../../../constants";
 import { normalize, schema } from "normalizr";
 import axios from "axios";
@@ -45,7 +45,7 @@ export const fetchJobs = createAsyncThunk(
       ));
 
       // Normalize the skills data
-      const skills = skillsDataResponses.reduce((acc: Record<string, any>, response) => {
+      const skills = skillsDataResponses.reduce((acc: Record<string, TSkill>, response) => {
         const skill = response.data.data.skill;
         const id = skill.id;
         acc[id] = {
