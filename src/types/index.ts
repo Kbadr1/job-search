@@ -13,7 +13,7 @@ export interface TSkill {
   importance: string;
   level: string;
   jobs: string[];
-  skills: string[];
+  skills?: string[];
 }
 
 export interface TJobsState {
