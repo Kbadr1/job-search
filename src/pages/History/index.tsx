@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import SearchHistory from "../../components/SearchHistory/SearchHistory";
-import { clearHistory } from "../../store/jobsSlice";
 import "./history.css";
+import { clearHistory } from "../../store/jobs/jobsSlice";
 
 const History = () => {
   const dispatch = useDispatch();

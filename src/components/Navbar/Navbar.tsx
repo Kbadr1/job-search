@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import MenuIcon from "../../assets/icons/menu-icon.svg";
 import { navLinks } from "../../constants";

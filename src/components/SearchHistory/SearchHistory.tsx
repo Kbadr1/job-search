@@ -1,13 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
-import { setSearchQuery } from "../../store/jobsSlice";
 import "./searchHistory.css";
 import { RootState } from "../../store";
+import { setSearchQuery } from "../../store/jobs/jobsSlice";
 
 const SearchHistory = () => {
   const dispatch = useDispatch();
   const { searchHistory } = useSelector((state: RootState) => state.jobs);
 
-  const handleSearchClick = (query: string) => {
+  const handleSelectQuery = (query: string) => {
     dispatch(setSearchQuery(query));
   };
 
@@ -20,7 +20,7 @@ const SearchHistory = () => {
             {searchHistory.map((searchQuery: string) => (
               <li
                 key={searchQuery}
-                onClick={() => handleSearchClick(searchQuery)}
+                onClick={() => handleSelectQuery(searchQuery)}
               >
                 {searchQuery}
               </li>

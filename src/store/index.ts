@@ -1,5 +1,5 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import jobsSlice from './jobsSlice';
+import jobsSlice from './jobs/jobsSlice';
 import storage from 'redux-persist/lib/storage'; 
 import { persistReducer, persistStore } from "redux-persist";
 import createFilter from 'redux-persist-transform-filter';

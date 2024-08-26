@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import JobCard from "../../components/JobCard/JobCard";
-import { fetchJobs, setSearchQuery } from "../../store/jobsSlice";
 import { useInfiniteScroll } from "../../hooks/useInfiniteScroll";
 import { AppDispatch, RootState } from "../../store";
 import { TJob } from "../../types";
+import { fetchJobs } from "../../store/jobs/thunks/fetchJobs";
+import { setSearchQuery } from "../../store/jobs/jobsSlice";
 
 const Jobs = () => {
   const {
