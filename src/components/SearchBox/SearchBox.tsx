@@ -2,12 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import SearchIcon from "../../assets/icons/search-icon.svg";
 import _debounce from "lodash/debounce";
 import { useNavigate } from "react-router-dom";
-import { setSearchQuery } from "../../store/jobsSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
 import "./searchBox.css";
 import { TJob } from "../../types";
 import { useClickOutside } from "../../hooks/useClickOutside";
+import { setSearchQuery } from "../../store/jobs/jobsSlice";
 
 const SearchBox = () => {
   const [isSuggestions, setIsSuggestions] = useState(false);

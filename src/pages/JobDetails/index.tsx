@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchJobById } from "../../store/jobsSlice";
 import { AppDispatch, RootState } from "../../store";
 import "./jobDetails.css";
 import SideCard from "../../components/SideCard";
+import { fetchJobById } from "../../store/jobs/thunks/fetchJobById";
 
 const JobDetails = () => {
   const { jobId } = useParams<{ jobId: string }>();

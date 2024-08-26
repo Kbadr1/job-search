@@ -1,7 +1,8 @@
 
 import  { MutableRefObject, useEffect } from 'react'
-import { Dispatch } from '@reduxjs/toolkit';
-import { fetchJobs, setCursor } from '../store/jobsSlice';
+import { Dispatch } from '@reduxjs/toolkit'; 
+import { fetchJobs } from '../store/jobs/thunks/fetchJobs';
+import { setCursor } from '../store/jobs/jobsSlice';
 
 interface TUseInfiniteScroll  {
   next: number;

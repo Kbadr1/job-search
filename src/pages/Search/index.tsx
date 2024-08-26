@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import JobCard from "../../components/JobCard/JobCard";
 import { useEffect, useRef } from "react";
-import { fetchJobs } from "../../store/jobsSlice";
 import SearchHistory from "../../components/SearchHistory/SearchHistory";
 import { AppDispatch, RootState } from "../../store";
+import { fetchJobs } from "../../store/jobs/thunks/fetchJobs";
 
 const Search = () => {
   const {
@@ -11,8 +11,6 @@ const Search = () => {
     loading,
     error,
     count,
-    cursor,
-    next,
     searchQuery,
   } = useSelector((state: RootState) => state.jobs);
 

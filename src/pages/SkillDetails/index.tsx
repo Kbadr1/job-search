@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchSkillById } from "../../store/jobsSlice";
 import { AppDispatch, RootState } from "../../store";
 import "./skillDetails.css";
 import SideCard from "../../components/SideCard";
+import { fetchSkillById } from "../../store/jobs/thunks/fetchSkillById";
 
 const SkillDetails = () => {
   const { skillId } = useParams<{ skillId: string }>();
